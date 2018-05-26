@@ -1,0 +1,7 @@
+URL,JsonPath,TextToVerify
+/en-id/v2/experience/landingPageV2,data.currentPage.name,TRENDING
+/en-id/v2/experience/landingPageV2,data.availablePages[0].name,TRENDING
+/en-id/v2/experience/landingPageV2,data.availablePages[1].name,INDONESIA
+/en-id/v2/experience/landingPageV2,data.availablePages[2].name,INTERNATIONAL
+/en-id/v2/experience/landingPageV2,data.pageSections[0].name,Top International Attractions
+/en-id/v2/experience/landingPageV2,data.pageSections[0].sectionType,CAROUSEL

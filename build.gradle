@@ -1,0 +1,54 @@
+
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+  mavenCentral()
+}
+
+
+dependencies {
+  // no dependency is needed now
+  testCompile 'io.rest-assured:rest-assured:3.0.0'
+  testCompile 'io.rest-assured:json-schema-validator:3.0.0'
+  testCompile("org.assertj:assertj-core:3.10.0")
+  testCompile("org.uncommons:reportng:1.1.2") {
+    exclude group: 'org.testng', module: 'testng'
+  }
+  compile "org.codehaus.groovy:groovy-all:2.4.9"
+  compile 'io.rest-assured:json-path:3.0.3'
+  compile 'org.testng:testng:6.9.6'
+  compile 'com.google.code.gson:gson:2.8.0'
+  compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+  compile group: 'org.json', name: 'json', version: '20090211'
+  compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+  compile group: 'commons-io', name: 'commons-io', version: '2.5'
+  compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.8.3'
+  // https://mvnrepository.com/artifact/au.com.bytecode/opencsv
+  compile group: 'au.com.bytecode', name: 'opencsv', version: '2.4'
+  // https://mvnrepository.com/artifact/com.google.inject/guice
+  compile group: 'com.google.inject', name: 'guice', version: '4.0'
+
+}
+
+
+test {
+  useTestNG()
+  options {
+    useDefaultListeners = false
+    listeners << 'org.uncommons.reportng.HTMLReporter'
+    listeners << 'org.uncommons.reportng.JUnitXMLReporter'
+  }
+
+
+  task runTests(type: JavaExec, dependsOn: 'classes') {
+    main = 'org.testng.TestNG'
+    classpath = files("./src/test/java",
+      project.sourceSets.main.compileClasspath,
+      project.sourceSets.test.compileClasspath,
+      project.sourceSets.main.runtimeClasspath,
+      project.sourceSets.test.runtimeClasspath)
+    args = ["-parallel",  "methods", "-threadcount", "1", "-d", "./build/test-output", "./testng.xml"]
+  }
+}
